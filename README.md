@@ -1,7 +1,75 @@
 # PHOSPHOR Spacetime
 
-AI-native Software Spacetime Manager reference runtime.
+**AI-native Software Spacetime Manager reference runtime.**
 
-This repository is being initialized from the PHOSPHOR Spacetime seven-document pre-MVP series. The first implementation checkpoint is Milestone 0 (contracts) plus Milestone 1 (Software Spacetime IR / Domain Registry).
+PHOSPHOR Spacetime explores a software control plane in which execution is represented as explicit **domains** with local temporal state, observation state, resource state, causal/governance references, and bounded actuation capabilities.
 
-Core invariants: `Time != Compute`, `Observation != Authority`, `Causality != Containment`, `CommandIntent != Actuation`, `Desired != Requested != Realized != Observed`, and `HDUS != HyperSoul`.
+The project does **not** replace the kernel scheduler, PHOSPHOR, MCCP, CTCL, or HDUS. It integrates them through stable contracts:
+
+```text
+PHOSPHOR / MCCP / CTCL / OS / Runtime
+                 ↓ evidence
+         Software Spacetime IR
+                 ↓
+          Governance / Policy
+                 ↓
+            CommandIntent
+                 ↓
+           Authority Gate
+                 ↓
+            Actuation ABI
+                 ↓
+      HDUS / OS / Runtime Providers
+                 ↓
+           measured reality
+```
+
+## Status
+
+`v0.1.0a0` — pre-alpha reference runtime.
+
+Current implemented checkpoint:
+
+- **Milestone 0 — Contracts:** complete.
+- **Milestone 1 — Software Spacetime IR / Domain Registry:** complete.
+- Contracts include `ssm-ir-v0.1`, `ssm-control-v0.1`, `ssm-provider-v0.1`, `ssm-actuation-receipt-v0.1`, and `mvp-run-manifest-v0.1`.
+- IR projection preserves observation conflicts rather than silently applying last-write-wins.
+
+Run verification:
+
+```bash
+python -m pytest -q
+```
+
+## Core invariants
+
+- `Time != Compute`
+- `Observation != Authority`
+- `Causality != Containment`
+- `CommandIntent != Actuation`
+- `Desired != Requested != Realized != Observed`
+- `HDUS != HyperSoul`
+- `UI != CanonicalSource`
+- Unsupported or ambiguous mutation fails closed.
+- Observation failure must not crash the target workload.
+
+## Architecture
+
+The pre-MVP series contains four theory papers and three engineering whitepapers. This repository begins implementation from those contracts rather than adding more pre-MVP theory.
+
+See [`docs/architecture/README.md`](docs/architecture/README.md).
+
+## Related repositories
+
+- [eml-phosphor](https://github.com/kakon77777-commits/eml-phosphor) — execution-as-interface, CTS, AI-readable event stream.
+- [phosphor-mccp](https://github.com/kakon77777-commits/phosphor-mccp) — runtime tracing, computational graph, evidence-grounded analysis.
+
+CTCL and HDUS remain independent canonical systems and are connected through adapters rather than copied into this repository.
+
+## MVP policy
+
+This repository is intentionally **local-first** and **userspace-first**. Initial actuation is limited to workloads spawned by the MVP or explicitly allowlisted test targets. Closed-source games are not used as foundational correctness oracles; synthetic and instrumented runtimes come first.
+
+## License
+
+Apache-2.0.
