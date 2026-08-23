@@ -26,7 +26,7 @@ PHOSPHOR / MCCP / CTCL / OS / Runtime
 
 ## Status
 
-`v0.1.0a6` — pre-alpha reference runtime.
+`v0.1.0a7` — pre-alpha reference runtime.
 
 Current implemented checkpoint:
 
@@ -38,6 +38,7 @@ Current implemented checkpoint:
 - **Milestone 5 — Linux cgroup v2 Provider:** complete.
 - **Milestone 6 — Synthetic Multi-Temporal Runtime:** complete.
 - **Milestone 7 — Deterministic Rule Governor:** complete.
+- **Milestone 8 — Schema-Bounded AI Policy Adapter:** complete.
 - Contracts include `ssm-ir-v0.1`, `ssm-control-v0.1`, `ssm-provider-v0.1`, `ssm-actuation-receipt-v0.1`, and `mvp-run-manifest-v0.1`.
 - IR projection preserves observation conflicts rather than silently applying last-write-wins.
 - M2 adds `CommandIntent`, bounded `AuthorityGrant`, capability/bounds validation, fencing, idempotency, `ActuationReceipt`, deterministic Mock Provider, and independent post-actuation verification.
@@ -59,6 +60,12 @@ Current implemented checkpoint:
 - M7 enforces hysteresis bands, cooldown, per-decision max-delta bounds, native logical-rate preference, CPU-budget fallback, background pressure relief, bounded pause/resume, and observation-profile adaptation.
 - Stale/error observations produce no adaptive mutation; policy proposals remain untrusted governance intents and never gain provider authority.
 - M7 CI evidence: workflow run `32645942343`; Ubuntu job `97210098401` and Windows job `97210098521` both passed with **78 passed / 1 opposite-platform native skip**.
+- M8 adds a compact provider-neutral AI policy adapter over `GovernanceSummary`, with strict `goal / operation / value / reason / confidence / evidence_refs` output validation.
+- AI output never names raw Windows/Linux provider commands and never gains ambient actuation authority.
+- Timeout, malformed JSON, schema rejection, model exceptions, and contained BaseException failures fall back to the deterministic Rule Governor.
+- Stale/error observation and active cooldown block the AI call entirely; no adaptive mutation is produced from stale state.
+- M8 binds AI evidence references back to canonical summary evidence and rejects invented evidence IDs.
+- M8 CI evidence: workflow run `32647644223`; Ubuntu job `97214257354` and Windows job `97214257243` both passed with **101 passed / 1 opposite-platform native skip**.
 
 Run verification:
 
