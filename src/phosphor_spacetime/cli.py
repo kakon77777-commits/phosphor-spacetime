@@ -7,6 +7,7 @@ from typing import Sequence
 
 from phosphor_spacetime.benchmark.harness import BASELINES, BenchmarkHarness
 from phosphor_spacetime.metrics.compare import compare_run_dirs
+from phosphor_spacetime.gates import GateRunner
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -31,6 +32,11 @@ def _parser() -> argparse.ArgumentParser:
     compare = sub.add_parser("compare")
     compare.add_argument("run_dirs", nargs="+")
     compare.add_argument("--output")
+
+    gate = sub.add_parser("gate")
+    gate.add_argument("--work-root", default="runs/gates")
+    gate.add_argument("--git-commit", default="UNKNOWN")
+    gate.add_argument("--output")
     return parser
 
 
@@ -61,6 +67,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         else:
             print(encoded, end="")
         return 0
+    if args.command == "gate":
+        report = GateRunner(work_root=args.work_root, git_commit=args.git_commit).run()
+        encoded = json.dumps(report.model_dump(mode="json"), ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+        if args.output:
+            Path(args.output).write_text(encoded, encoding="utf-8")
+        else:
+            print(encoded, end="")
+        return 0 if report.passed else 3
     raise RuntimeError("unreachable")
 
 
