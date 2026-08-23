@@ -29,7 +29,11 @@ Implement → Measure → Break → Revise
 - M1 Software Spacetime IR / Domain Registry: complete.
 - M2 Authority-Bounded Control Core + Mock Provider: complete.
 - M3 Registered Process Observation Plane: complete.
-- Next: M4 Windows Job Object Provider — bounded real actuation for MVP-spawned/allowlisted test processes.
+- M4 Windows Job Object Provider: complete.
+- Next: M5 Linux cgroup v2 Provider — bounded dedicated-test-subtree resource actuation and read-back.
 
 M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.
 M3 main implementation commit: `02ec2f2429b132dc687db1899774e84e8f2d264a`.
+M4 main implementation commit: `9452b49d8dcd5b85dfbcafea50f80cb621b92228`.
+M4 validation merge commit: `295cd933a6f14321b650b2bdf9c4f19ded40df1b`.
+M4 native Windows validation: workflow run `32641297667`, Windows job `97198681707`, `39 passed`.
