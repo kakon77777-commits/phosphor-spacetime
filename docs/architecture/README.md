@@ -33,7 +33,8 @@ Implement → Measure → Break → Revise
 - M5 Linux cgroup v2 Provider: complete.
 - M6 Synthetic Multi-Temporal Runtime: complete.
 - M7 Deterministic Rule Governor: complete.
-- Next: M8 AI Policy Adapter — structured proposal generation with strict schema validation and deterministic fallback.
+- M8 Schema-Bounded AI Policy Adapter: complete.
+- Next: M9 Benchmark Harness / B0–B3 baseline closure.
 
 M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.
 M3 main implementation commit: `02ec2f2429b132dc687db1899774e84e8f2d264a`.
@@ -50,3 +51,12 @@ M6 validation: workflow `32644861647`; Ubuntu `97207461111` and Windows `9720746
 
 M7 feature merge: `4d90cb6cfc985ecf6edcc895a2c9e159e69b01f4`.
 M7 validation: workflow `32645942343`; Ubuntu `97210098401` and Windows `97210098521`, both `78 passed / 1 opposite-platform native skip`.
+
+## M8 — Schema-Bounded AI Policy Adapter
+
+M8 introduces AI only at the governance proposal layer. `GovernanceSummary` is compact and provider-neutral; AI returns at most one strict `PolicyProposal`. Deterministic validation enforces target identity, capability availability, RulePolicy safety bounds, max-delta limits, evidence provenance, pause/resume scope, and observation-resolution direction before a proposal can continue toward CommandIntent.
+
+Failure semantics are explicit: timeout, malformed output, schema rejection, and model exceptions fall back to the deterministic Rule Governor; stale/error observation and active cooldown block the AI call entirely. AI never receives provider objects and never gains ambient actuation authority.
+
+M8 feature merge: `7511a73b635f0b845759fe9097cbb4b4a7234aa8`.
+M8 validation: workflow `32647644223`; Ubuntu `97214257354` and Windows `97214257243`, both `101 passed / 1 opposite-platform native skip`.
