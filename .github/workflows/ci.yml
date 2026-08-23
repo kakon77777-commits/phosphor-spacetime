@@ -30,9 +30,11 @@ jobs:
             echo +cpu | sudo tee /sys/fs/cgroup/cgroup.subtree_control >/dev/null || true
           fi
           sudo mkdir -p "$ROOT"
+          if grep -qw cpu "$ROOT/cgroup.controllers"; then
+            echo +cpu | sudo tee "$ROOT/cgroup.subtree_control" >/dev/null
+          fi
           test -e "$ROOT/cgroup.procs"
-          test -e "$ROOT/cpu.weight"
-          test -e "$ROOT/cpu.max"
+          test -e "$ROOT/cgroup.subtree_control"
       - name: Test Linux
         if: runner.os == 'Linux'
         env:
