@@ -203,3 +203,9 @@ def test_real_windows_job_provider_cpu_hard_cap_round_trip():
         provider.close()
         child.terminate()
         child.wait(timeout=5)
+
+
+def test_windows_provider_is_exported_from_provider_package():
+    from phosphor_spacetime.providers import WindowsJobProvider as ExportedWindowsJobProvider
+
+    assert ExportedWindowsJobProvider is WindowsJobProvider
