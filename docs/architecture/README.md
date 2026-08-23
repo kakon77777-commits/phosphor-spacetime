@@ -1,4 +1,4 @@
-# PHOSPHOR Spacetime Architecture
+# PHOSPHOR Spacetime Architecture Documents
 
 This repository implements the engineering closure of a seven-document pre-MVP series.
 
@@ -11,22 +11,23 @@ This repository implements the engineering closure of a seven-document pre-MVP s
 
 ## Engineering contracts
 
-5. **PHOSPHOR Spacetime Architecture v0.1** — six-plane integration architecture and Software Spacetime IR.
-6. **HDUS Virtual Actuation Plane v0.1** — provider-neutral actuation contract and Pre-HyperSoul simulation layer.
-7. **PHOSPHOR Spacetime MVP v0.1** — implementation, workloads, baselines, gates, and falsification criteria.
+5. [`PHOSPHOR_SPACETIME_ARCHITECTURE_v0.1.md`](PHOSPHOR_SPACETIME_ARCHITECTURE_v0.1.md) — six-plane integration architecture and Software Spacetime IR.
+6. [`HDUS_VIRTUAL_ACTUATION_PLANE_v0.1.md`](HDUS_VIRTUAL_ACTUATION_PLANE_v0.1.md) — provider-neutral actuation contract and Pre-HyperSoul simulation layer.
+7. [`PHOSPHOR_SPACETIME_MVP_v0.1.md`](PHOSPHOR_SPACETIME_MVP_v0.1.md) — implementation, workloads, baselines, gates, and falsification criteria.
 
-The canonical source packs are preserved separately; the executable contracts live under `schemas/` and are implemented incrementally in `src/phosphor_spacetime/`.
+## Implementation rule
 
-## Current implementation
-
-- M0 Contracts: complete.
-- M1 IR / Domain Registry: complete.
-- Next: M2 Control Core — CommandIntent, Authority Gate, Fencing, Idempotency, and ActuationReceipt.
-
-## Rule
-
-No new pre-MVP theory paper is required before the reference runtime. The engineering loop is:
+No new pre-MVP theory paper is required before the reference runtime. The next canonical loop is:
 
 ```text
 Implement → Measure → Break → Revise
 ```
+
+## Current implementation checkpoint
+
+- M0 Contracts: complete.
+- M1 Software Spacetime IR / Domain Registry: complete.
+- M2 Authority-Bounded Control Core + Mock Provider: complete.
+- Next: M3 Observation Plane — registered-process observer, Observer Bus, projection updates, and stale-observation semantics.
+
+M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.

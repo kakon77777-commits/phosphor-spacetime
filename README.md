@@ -26,14 +26,17 @@ PHOSPHOR / MCCP / CTCL / OS / Runtime
 
 ## Status
 
-`v0.1.0a0` — pre-alpha reference runtime.
+`v0.1.0a1` — pre-alpha reference runtime.
 
 Current implemented checkpoint:
 
 - **Milestone 0 — Contracts:** complete.
 - **Milestone 1 — Software Spacetime IR / Domain Registry:** complete.
+- **Milestone 2 — Authority-Bounded Control Core + Mock Provider:** complete.
 - Contracts include `ssm-ir-v0.1`, `ssm-control-v0.1`, `ssm-provider-v0.1`, `ssm-actuation-receipt-v0.1`, and `mvp-run-manifest-v0.1`.
 - IR projection preserves observation conflicts rather than silently applying last-write-wins.
+- M2 adds `CommandIntent`, bounded `AuthorityGrant`, capability/bounds validation, fencing, idempotency, `ActuationReceipt`, deterministic Mock Provider, and independent post-actuation verification.
+- Provider exceptions, stale providers, unsupported capabilities, and verification mismatches fail closed rather than becoming false success.
 
 Run verification:
 
@@ -53,11 +56,15 @@ python -m pytest -q
 - Unsupported or ambiguous mutation fails closed.
 - Observation failure must not crash the target workload.
 
-## Architecture
-
-The pre-MVP series contains four theory papers and three engineering whitepapers. This repository begins implementation from those contracts rather than adding more pre-MVP theory.
+## Architecture documents
 
 See [`docs/architecture/README.md`](docs/architecture/README.md).
+
+The pre-MVP series contains four theory papers and three engineering whitepapers. The repository starts implementation from the three engineering documents:
+
+1. PHOSPHOR Spacetime Architecture v0.1
+2. HDUS Virtual Actuation Plane v0.1
+3. PHOSPHOR Spacetime MVP v0.1
 
 ## Related repositories
 
