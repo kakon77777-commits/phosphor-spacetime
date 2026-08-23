@@ -26,7 +26,7 @@ PHOSPHOR / MCCP / CTCL / OS / Runtime
 
 ## Status
 
-`v0.1.0a3` — pre-alpha reference runtime.
+`v0.1.0a4` — pre-alpha reference runtime.
 
 Current implemented checkpoint:
 
@@ -35,6 +35,7 @@ Current implemented checkpoint:
 - **Milestone 2 — Authority-Bounded Control Core + Mock Provider:** complete.
 - **Milestone 3 — Registered Process Observation Plane:** complete.
 - **Milestone 4 — Windows Job Object Provider:** complete.
+- **Milestone 5 — Linux cgroup v2 Provider:** complete.
 - Contracts include `ssm-ir-v0.1`, `ssm-control-v0.1`, `ssm-provider-v0.1`, `ssm-actuation-receipt-v0.1`, and `mvp-run-manifest-v0.1`.
 - IR projection preserves observation conflicts rather than silently applying last-write-wins.
 - M2 adds `CommandIntent`, bounded `AuthorityGrant`, capability/bounds validation, fencing, idempotency, `ActuationReceipt`, deterministic Mock Provider, and independent post-actuation verification.
@@ -44,6 +45,11 @@ Current implemented checkpoint:
 - M4 adds a bounded Windows Job Object provider for MVP-spawned or explicitly allowlisted processes, with CPU hard-cap and job-memory policy read-back.
 - Windows process pause/resume is explicitly `PARTIAL` process-level control; generic `domain.set_temporal_rate` remains `UNSUPPORTED` because `CPUServiceRate != LogicalTimeRate`.
 - Native Windows CI evidence: workflow run `32641297667`, job `97198681707`, Windows Server 2025 / Python 3.12.10, `PSS_RUN_WINDOWS_JOB_TESTS=1`, **39 passed**.
+
+- M5 adds a dedicated-subtree Linux cgroup v2 provider with separate `cpu.weight` / `cpu.max`, `memory.max`, `io.weight` / `io.max`, cgroup freeze, read-back verification, and fail-closed unknown-resource handling.
+- Generic Linux `domain.set_temporal_rate` remains `UNSUPPORTED`; cgroup CPU service controls are not logical-time controls.
+- Native Linux CI evidence: workflow run `32643114760`, Ubuntu job `97203159145`, Ubuntu 24.04 / Python 3.12.14, `PSS_RUN_CGROUP_TESTS=1`, **49 passed / 1 Windows-only skip**.
+- The same run's Windows job `97203159312` remained green with **49 passed / 1 Linux-only skip**.
 
 Run verification:
 

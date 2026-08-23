@@ -30,10 +30,15 @@ Implement → Measure → Break → Revise
 - M2 Authority-Bounded Control Core + Mock Provider: complete.
 - M3 Registered Process Observation Plane: complete.
 - M4 Windows Job Object Provider: complete.
-- Next: M5 Linux cgroup v2 Provider — bounded dedicated-test-subtree resource actuation and read-back.
+- M5 Linux cgroup v2 Provider: complete.
+- Next: M6 Synthetic Multi-Temporal Runtime — native logical clock, event queue, event jump, snapshot/restore, and deterministic state hash.
 
 M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.
 M3 main implementation commit: `02ec2f2429b132dc687db1899774e84e8f2d264a`.
 M4 main implementation commit: `9452b49d8dcd5b85dfbcafea50f80cb621b92228`.
 M4 validation merge commit: `295cd933a6f14321b650b2bdf9c4f19ded40df1b`.
 M4 native Windows validation: workflow run `32641297667`, Windows job `97198681707`, `39 passed`.
+
+M5 implementation commit: `23764e1ebaf1231a9e40dc5539d72436511825c3`.
+M5 validation merge: `99417eaa8d069c55a1c3ef541b7254b340095af6`.
+M5 native Linux validation: workflow `32643114760`, Ubuntu job `97203159145`, `49 passed / 1 Windows-only skip`.
