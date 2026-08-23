@@ -1,31 +1,38 @@
-# PHOSPHOR Spacetime Checkpoint — M0 through M5
+# PHOSPHOR Spacetime Checkpoint — M0 through M6
 
-- Version: `0.1.0a4`
+- Version: `0.1.0a5`
 - Date: 2026-08-23
 - Repository: `kakon77777-commits/phosphor-spacetime`
-- M4 closure: `983caea6a9e0d37d15999a762ca49ef0ee12c3ec`
-- M5 implementation: `23764e1ebaf1231a9e40dc5539d72436511825c3`
-- M5 validation merge: `99417eaa8d069c55a1c3ef541b7254b340095af6`
+- M5 closure: `5b335811bbc5813c5112594c2e7d7e9e4c9420b9`
+- M6 feature merge: `56b678e2868c17f44d7ccdb037140b58677b091e`
 
-## Implemented through M5
+## Implemented through M6
 
 - Contracts, Software Spacetime IR, Domain Registry, conflict-preserving projection.
 - Authority-bounded CommandIntent, fencing, idempotency, receipts, Mock Provider.
 - Registered process Observation Plane.
-- Native Windows Job Object Provider with CPU/job-memory policy read-back.
-- Linux cgroup v2 Provider for dedicated test subtrees.
-- Linux semantics keep `cpu.weight != cpu.max` and `io.weight != io.max`.
-- `memory.max`, `cgroup.freeze`, malformed/unknown resource fail-closed paths, and post-actuation read-back are covered.
-- Generic OS resource controls never claim native logical-time rate support.
+- Native Windows Job Object Provider and Linux cgroup v2 Provider with read-back verification.
+- Deterministic Synthetic Runtime as the first native logical-time ground-truth provider.
+- Synthetic runtime supports logical tick, requested/realized logical rate, fractional rate remainder, pause/resume, discrete event queue, tick execution, exact event-jump execution, snapshot/restore, deterministic PRNG state, and canonical state hash.
+- Snapshot preserves pending events, rate remainder, PRNG state, and future event ordering; restore recreates the same future trajectory.
+- Event payloads must be canonical JSON-serializable data with finite numeric values.
+- Synthetic `domain.set_temporal_rate` is native logical-time control; Windows/Linux CPU resource controls remain explicitly separate.
 
-## Native CI Evidence
+## M6 Correctness Evidence
 
-Workflow run `32643114760`:
-- Ubuntu job `97203159145`: Ubuntu 24.04 / Python 3.12.14 / `PSS_RUN_CGROUP_TESTS=1` / `49 passed, 1 skipped` (Windows-only test skipped).
-- Windows job `97203159312`: Windows Server 2025 / Python 3.12.10 / `PSS_RUN_WINDOWS_JOB_TESTS=1` / `49 passed, 1 skipped` (Linux-only test skipped).
+- Same seed + same schedule -> same state hash.
+- Different seed affects random events and state hash.
+- Tick and event-jump modes produce the same final semantic hash at equal logical time.
+- Reference event-sparse workload at tick `1000`: tick mode uses `1000` tick iterations; event-jump mode uses `0` tick iterations while producing the same final state hash.
+- Snapshot/restore reproduces future execution exactly, including deterministic random events.
+- Provider snapshot/restore and native rate controls pass the existing authority / receipt / post-observation verification path.
 
-The Linux native test exercises child PID placement into `/sys/fs/cgroup/phosphor-spacetime-ci`, `cpu.weight=200`, `cpu.max=50000 100000`, filesystem read-back, and receipt verification.
+## CI Evidence
+
+Workflow run `32644861647`:
+- Ubuntu job `97207461111`: `62 passed, 1 skipped` (Windows-only native test skipped); Linux cgroup native path executed.
+- Windows job `97207461220`: `62 passed, 1 skipped` (Linux-only native test skipped); Windows Job Object native path executed.
 
 ## Next
 
-M6 Synthetic Multi-Temporal Runtime: logical clock, explicit requested/realized rate semantics, discrete event queue, event jump, snapshot/restore, and deterministic state hash.
+M7 Deterministic Rule Governor: temporal debt, resource pressure, causal criticality, observation health, hysteresis, cooldown, and bounded policy proposals.
