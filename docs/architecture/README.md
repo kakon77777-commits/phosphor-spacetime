@@ -28,6 +28,8 @@ Implement → Measure → Break → Revise
 - M0 Contracts: complete.
 - M1 Software Spacetime IR / Domain Registry: complete.
 - M2 Authority-Bounded Control Core + Mock Provider: complete.
-- Next: M3 Observation Plane — registered-process observer, Observer Bus, projection updates, and stale-observation semantics.
+- M3 Registered Process Observation Plane: complete.
+- Next: M4 Windows Job Object Provider — bounded real actuation for MVP-spawned/allowlisted test processes.
 
 M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.
+M3 main implementation commit: `02ec2f2429b132dc687db1899774e84e8f2d264a`.

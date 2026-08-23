@@ -26,17 +26,20 @@ PHOSPHOR / MCCP / CTCL / OS / Runtime
 
 ## Status
 
-`v0.1.0a1` — pre-alpha reference runtime.
+`v0.1.0a2` — pre-alpha reference runtime.
 
 Current implemented checkpoint:
 
 - **Milestone 0 — Contracts:** complete.
 - **Milestone 1 — Software Spacetime IR / Domain Registry:** complete.
 - **Milestone 2 — Authority-Bounded Control Core + Mock Provider:** complete.
+- **Milestone 3 — Registered Process Observation Plane:** complete.
 - Contracts include `ssm-ir-v0.1`, `ssm-control-v0.1`, `ssm-provider-v0.1`, `ssm-actuation-receipt-v0.1`, and `mvp-run-manifest-v0.1`.
 - IR projection preserves observation conflicts rather than silently applying last-write-wins.
 - M2 adds `CommandIntent`, bounded `AuthorityGrant`, capability/bounds validation, fencing, idempotency, `ActuationReceipt`, deterministic Mock Provider, and independent post-actuation verification.
 - Provider exceptions, stale providers, unsupported capabilities, and verification mismatches fail closed rather than becoming false success.
+- M3 adds `ObserverBus`, explicitly registered PID observation through `psutil`, stale-observation refresh, process-resource projection, subscriber-failure isolation, and error-to-healthy recovery semantics.
+- Process observation never falls back to machine-wide discovery; unregistered PID/domain mappings return explicit observation errors.
 
 Run verification:
 
