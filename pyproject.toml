@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "phosphor-spacetime"
-version = "0.1.0a7"
+version = "0.1.0a8"
 description = "AI-native Software Spacetime Manager reference runtime"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -17,6 +17,9 @@ dependencies = [
   "jsonschema>=4.22",
   "psutil>=6.0"
 ]
+
+[project.scripts]
+pss = "phosphor_spacetime.cli:main"
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
