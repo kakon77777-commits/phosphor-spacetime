@@ -32,7 +32,8 @@ Implement → Measure → Break → Revise
 - M4 Windows Job Object Provider: complete.
 - M5 Linux cgroup v2 Provider: complete.
 - M6 Synthetic Multi-Temporal Runtime: complete.
-- Next: M7 Deterministic Rule Governor — bounded temporal/resource policy with hysteresis and cooldown.
+- M7 Deterministic Rule Governor: complete.
+- Next: M8 AI Policy Adapter — structured proposal generation with strict schema validation and deterministic fallback.
 
 M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.
 M3 main implementation commit: `02ec2f2429b132dc687db1899774e84e8f2d264a`.
@@ -46,3 +47,6 @@ M5 native Linux validation: workflow `32643114760`, Ubuntu job `97203159145`, `4
 
 M6 feature merge: `56b678e2868c17f44d7ccdb037140b58677b091e`.
 M6 validation: workflow `32644861647`; Ubuntu `97207461111` and Windows `97207461220`, both `62 passed / 1 opposite-platform native skip`.
+
+M7 feature merge: `4d90cb6cfc985ecf6edcc895a2c9e159e69b01f4`.
+M7 validation: workflow `32645942343`; Ubuntu `97210098401` and Windows `97210098521`, both `78 passed / 1 opposite-platform native skip`.
