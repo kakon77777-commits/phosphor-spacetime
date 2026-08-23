@@ -17,13 +17,13 @@ This repository implements the engineering closure of a seven-document pre-MVP s
 
 ## Implementation rule
 
-No new pre-MVP theory paper is required before the reference runtime. The next canonical loop is:
-
 ```text
 Implement → Measure → Break → Revise
 ```
 
-## Current implementation checkpoint
+No additional pre-MVP theory paper is required before runtime evidence.
+
+## Runtime checkpoints
 
 - M0 Contracts: complete.
 - M1 Software Spacetime IR / Domain Registry: complete.
@@ -34,29 +34,63 @@ Implement → Measure → Break → Revise
 - M6 Synthetic Multi-Temporal Runtime: complete.
 - M7 Deterministic Rule Governor: complete.
 - M8 Schema-Bounded AI Policy Adapter: complete.
-- Next: M9 Benchmark Harness / B0–B3 baseline closure.
+- M9 Benchmark Harness / B0–B3 Baseline Closure: complete.
+- Next: M10 Gate Runner + Failure Injection.
 
-M2 main implementation commit: `10d5d70bb12ba47cdbc599c3da1d03b7937176fe`.
-M3 main implementation commit: `02ec2f2429b132dc687db1899774e84e8f2d264a`.
-M4 main implementation commit: `9452b49d8dcd5b85dfbcafea50f80cb621b92228`.
-M4 validation merge commit: `295cd933a6f14321b650b2bdf9c4f19ded40df1b`.
-M4 native Windows validation: workflow run `32641297667`, Windows job `97198681707`, `39 passed`.
+## Governance and actuation boundary
 
-M5 implementation commit: `23764e1ebaf1231a9e40dc5539d72436511825c3`.
-M5 validation merge: `99417eaa8d069c55a1c3ef541b7254b340095af6`.
-M5 native Linux validation: workflow `32643114760`, Ubuntu job `97203159145`, `49 passed / 1 Windows-only skip`.
+```text
+Observation
+  ↓
+Software Spacetime IR
+  ↓
+GovernanceSummary
+  ├─→ Rule Governor ─┐
+  └─→ AI Adapter ────┤ PolicyProposal
+                     ↓
+                deterministic validation
+                     ↓
+                 CommandIntent
+                     ↓
+                Authority Gate
+                     ↓
+                 Provider ABI
+                     ↓
+                measured reality
+```
 
-M6 feature merge: `56b678e2868c17f44d7ccdb037140b58677b091e`.
-M6 validation: workflow `32644861647`; Ubuntu `97207461111` and Windows `97207461220`, both `62 passed / 1 opposite-platform native skip`.
+`PolicyProposal != CommandIntent != Actuation`. AI never receives provider authority.
 
-M7 feature merge: `4d90cb6cfc985ecf6edcc895a2c9e159e69b01f4`.
-M7 validation: workflow `32645942343`; Ubuntu `97210098401` and Windows `97210098521`, both `78 passed / 1 opposite-platform native skip`.
+## M9 benchmark architecture
 
-## M8 — Schema-Bounded AI Policy Adapter
+M9 introduces a reproducible evidence layer:
 
-M8 introduces AI only at the governance proposal layer. `GovernanceSummary` is compact and provider-neutral; AI returns at most one strict `PolicyProposal`. Deterministic validation enforces target identity, capability availability, RulePolicy safety bounds, max-delta limits, evidence provenance, pause/resume scope, and observation-resolution direction before a proposal can continue toward CommandIntent.
+```text
+Workload + Seed + Baseline + Commit
+                ↓
+            Run Manifest
+                ↓
+     B0 / B1 / B2 / B3 Policy
+                ↓
+         Workload Execution
+                ↓
+ Correctness + Metrics + Artifacts
+                ↓
+       Compatibility-Aware Compare
+```
 
-Failure semantics are explicit: timeout, malformed output, schema rejection, and model exceptions fall back to the deterministic Rule Governor; stale/error observation and active cooldown block the AI call entirely. AI never receives provider objects and never gains ambient actuation authority.
+The baseline contract is:
 
-M8 feature merge: `7511a73b635f0b845759fe9097cbb4b4a7234aa8`.
-M8 validation: workflow `32647644223`; Ubuntu `97214257354` and Windows `97214257243`, both `101 passed / 1 opposite-platform native skip`.
+- `B0_NATIVE`: native/default execution, no adaptive policy.
+- `B1_FIXED`: explicit fixed policy, no runtime adaptation.
+- `B2_RULE`: deterministic Rule Governor.
+- `B3_AI`: M8 schema-bounded AI adapter with deterministic Rule fallback.
+
+M9 does not encode `B2 > B1` or `B3 > B2` as hard gates. The harness first establishes fair, reproducible, correctness-preserving measurement. Performance superiority is tested later through repeated formal runs.
+
+M9 feature merge: `773a23e4a846e3e944691a278569cd07e74ed3b8`.
+M9 validation workflow: `32649039908`; Ubuntu `97217661925` and Windows `97217662030`, both `117 passed / 1 opposite-platform native skip`.
+
+## Next architectural checkpoint
+
+M10 will encode Gate 0–6 and failure injection: observer crash, provider stale state, receipt mismatch, AI timeout/error, duplicate command, and stale fencing. Hard gates remain distinct from tunable performance hypotheses.
