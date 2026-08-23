@@ -98,6 +98,7 @@ def decide(
 
     now = now or datetime.now(timezone.utc)
 
+    # Stale/error observation must never drive adaptive mutation.
     if summary.observation_health != "HEALTHY":
         return []
     if _cooldown_active(summary, policy, now):
@@ -110,11 +111,16 @@ def decide(
     high_criticality = summary.causal_criticality >= policy.criticality_high
     low_criticality = summary.causal_criticality <= policy.criticality_low
 
+    # A critical domain that accumulated debt while paused should first resume;
+    # changing rate/budget while paused would hide the most immediate cause.
     if summary.paused:
         if high_debt and high_criticality and summary.resume_supported:
             return [_proposal(summary, "RESUME", True, "CRITICAL_DEBT_RESUME")]
         return []
 
+    # Protect foreground/critical work by shrinking low-criticality background
+    # budgets under pressure.  Pause only after the semantic CPU budget has
+    # reached the configured floor.
     if summary.role == "BACKGROUND" and high_pressure and low_criticality:
         if summary.resource_budget_supported and summary.current_cpu_budget_fraction > policy.cpu_budget_min:
             target = _decrease(
@@ -128,6 +134,9 @@ def decide(
         if summary.pause_supported:
             return [_proposal(summary, "PAUSE", True, "BACKGROUND_PRESSURE_PAUSE")]
 
+    # Critical temporal debt prefers a semantic/native time control.  Only when
+    # that capability is unavailable does the governor fall back to more CPU
+    # service, preserving Time != Compute.
     if high_debt and high_criticality:
         if summary.native_temporal_rate_supported and summary.current_temporal_rate < policy.temporal_rate_ceiling:
             target = _increase(
@@ -155,6 +164,8 @@ def decide(
         ):
             return [_proposal(summary, "SET_OBSERVATION_PROFILE", "FOCUSED", "CRITICAL_DOMAIN_NEEDS_MORE_EVIDENCE")]
 
+    # The low threshold closes the hysteresis loop: only after debt falls below
+    # debt_low do we unwind a previously raised native logical rate toward 1x.
     if low_debt and quiet_pressure and summary.native_temporal_rate_supported and summary.current_temporal_rate > 1.0:
         target = _decrease(
             summary.current_temporal_rate,
@@ -165,6 +176,8 @@ def decide(
         if target < summary.current_temporal_rate:
             return [_proposal(summary, "SET_TEMPORAL_RATE", target, "LOW_DEBT_NORMALIZE_TEMPORAL_RATE")]
 
+    # Quiet, low-criticality background work can reduce observation cost after
+    # the high-pressure/critical-debt branches have had first priority.
     if (
         summary.role == "BACKGROUND"
         and low_debt
